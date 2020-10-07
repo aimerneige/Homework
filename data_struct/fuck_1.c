@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 #define NAME_MAX 32
-
 typedef struct _student
 {
     char name[NAME_MAX];
@@ -11,19 +10,20 @@ typedef struct _student
     struct _student *next;
 } Student;
 
+#define SIZE sizeof(Student)
+
 void input_node(Student *node);
 void print_node(Student *node);
 void show_all(Student *head);
 void show_name(Student *head, char *name);
 int exist(Student *head, char *name);
-Student *insert(Student *head);
-Student *insert_after(Student *head);
-Student *insert_before(Student *head);
+Student *insert_after(Student *head, char *name);
+Student *insert_before(Student *head, char *name);
 Student *delete (Student *head, char *name);
 
 int main(int argc, char *argv[])
 {
-    const int SIZE = sizeof(Student);
+    // const int SIZE = sizeof(Student);
     Student *head = NULL;
     head = (Student *)malloc(SIZE * 1);
     input_node(head);
@@ -107,14 +107,55 @@ int exist(Student *head, char *name)
     return flag;
 }
 
-Student *insert_after(Student *head)
+Student *insert_after(Student *head, char *name)
 {
-    // fuck
+    if (head == NULL)
+    {
+        return head;
+    }
+    Student *p = head;
+    while (p != NULL)
+    {
+        if (strcmp(name, head->name) == 0)
+        {
+            Student *node = (Student *)malloc(SIZE * 1);
+            input_node(node);
+            Student *next = p->next;
+            p->next = node;
+            node->next = next;
+            break;
+        }
+    }
+    return head;
 }
 
-Student *insert_before(Student *head)
+Student *insert_before(Student *head, char *name)
 {
-    // fuck
+    if (head == NULL)
+    {
+        return head;
+    }
+    if (strcmp(name, head->name) == 0)
+    {
+        Student *node = (Student *)malloc(SIZE * 1);
+        input_node(node);
+        node->next = head;
+        return node;
+    }
+    Student *before = head;
+    Student *p = head->next;
+    while (p != NULL)
+    {
+        if (strcmp(name, head->name) == 0)
+        {
+            Student* node = (Student*) malloc(SIZE * 1);
+            input_node(node);
+            before->next = node;
+            node->next = p;
+            break;
+        }
+    }
+    return head;
 }
 
 // delete the first node with the name 'name' in list 'head'
@@ -126,11 +167,10 @@ Student *delete (Student *head, char *name)
     }
     if (strcmp(name, head->name) == 0)
     {
-        Student* new_head = head->next;
+        Student *new_head = head->next;
         free(head);
         return new_head;
     }
-    int flag = 0;
     Student *before = head;
     Student *p = head->next;
     Student *free_node = NULL;
