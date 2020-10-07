@@ -12,27 +12,43 @@ typedef struct _student
 
 #define SIZE sizeof(Student)
 
+Student *init();
+Student* node_create();
 void input_node(Student *node);
 void print_node(Student *node);
 void show_all(Student *head);
 void show_name(Student *head, char *name);
 int exist(Student *head, char *name);
+Student *append(Student *head);
 Student *insert_after(Student *head, char *name);
 Student *insert_before(Student *head, char *name);
 Student *delete (Student *head, char *name);
 
 int main(int argc, char *argv[])
 {
-    // const int SIZE = sizeof(Student);
-    Student *head = NULL;
-    head = (Student *)malloc(SIZE * 1);
-    input_node(head);
-    head->next = NULL;
-    show_all(head);
-    show_name(head, "AimerNeige");
-    show_name(head, "A");
+    // Student *head = NULL;
+    // head = (Student *)malloc(SIZE * 1);
+    // input_node(head);
+    // head->next = NULL;
+    // show_all(head);
+    // show_name(head, "AimerNeige");
+    // show_name(head, "A");
 
-    return 0;
+    Student *link = init();
+
+    return 0;Student* node_create();
+}
+
+Student *init()
+{
+    return NULL;
+}
+
+Student* node_create()
+{
+    Student* node = (Student*) malloc(SIZE * 1);
+    input_node(node);
+    return node;
 }
 
 void input_node(Student *node)
@@ -107,6 +123,27 @@ int exist(Student *head, char *name)
     return flag;
 }
 
+Student *append(Student *head)
+{
+    if (head == NULL)
+    {
+        Student *node = node_create();
+        node->next = NULL;
+        return node;
+    }
+    Student *p = head;
+    while (p != NULL)
+    {
+        if (p->next == NULL) {
+            Student* node = node_create();
+            node->next = NULL:
+            p->next = node;
+        }
+        break;
+    }
+    return head;
+}
+
 Student *insert_after(Student *head, char *name)
 {
     if (head == NULL)
@@ -118,8 +155,7 @@ Student *insert_after(Student *head, char *name)
     {
         if (strcmp(name, head->name) == 0)
         {
-            Student *node = (Student *)malloc(SIZE * 1);
-            input_node(node);
+            Student *node = node_create();
             Student *next = p->next;
             p->next = node;
             node->next = next;
@@ -137,8 +173,7 @@ Student *insert_before(Student *head, char *name)
     }
     if (strcmp(name, head->name) == 0)
     {
-        Student *node = (Student *)malloc(SIZE * 1);
-        input_node(node);
+        Student *node = node_create();
         node->next = head;
         return node;
     }
@@ -148,8 +183,7 @@ Student *insert_before(Student *head, char *name)
     {
         if (strcmp(name, head->name) == 0)
         {
-            Student* node = (Student*) malloc(SIZE * 1);
-            input_node(node);
+            Student *node = node_create();
             before->next = node;
             node->next = p;
             break;
