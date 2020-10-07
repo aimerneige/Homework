@@ -126,7 +126,9 @@ Student *delete (Student *head, char *name)
     }
     if (strcmp(name, head->name) == 0)
     {
-        return head->next;
+        Student* new_head = head->next;
+        free(head);
+        return new_head;
     }
     int flag = 0;
     Student *before = head;
@@ -138,13 +140,10 @@ Student *delete (Student *head, char *name)
         {
             before->next = p->next;
             free(free_node);
+            break;
         }
-
         before = before->next;
         p = p->next;
     }
-
-    // fuck
-
     return head;
 }
