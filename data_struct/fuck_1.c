@@ -40,7 +40,6 @@ void menu_insert()
     printf("2. Insert After\n");
 }
 
-// append
 // show_name
 
 int main(int argc, char *argv[])
@@ -64,17 +63,17 @@ int main(int argc, char *argv[])
             link = append(link);
             break;
         case 3:
-            printf("Please input name:\t");
+            printf("Please input name: ");
             scanf("%s", name);
             link = delete (link, name);
             break;
         case 4:
-            printf("Please input name:\t");
+            printf("Please input name: ");
             scanf("%s", name);
             show_name(link, name);
             break;
         case 5:
-            printf("Please input name:\t");
+            printf("Please input name: ");
             scanf("%s", name);
             menu_insert();
             scanf("%d", &m);
@@ -87,7 +86,7 @@ int main(int argc, char *argv[])
                 link = insert_after(link, name);
                 break;
             default:
-                printf("Wrong Number! Please input again!\n");
+                printf("Wrong Number! Please input again! ");
                 break;
             }
             break;
@@ -95,7 +94,7 @@ int main(int argc, char *argv[])
             flag_exit = 1;
             break;
         default:
-            printf("Wrong Number! Please try again!\n");
+            printf("Wrong Number! Please try again! ");
             break;
         }
         if (flag_exit == 1)
@@ -130,8 +129,8 @@ void input_node(Student *node)
 
 void print_node(Student *node)
 {
-    printf("Name: %s\n", node->name);
-    printf("Tele: %ld\n", node->tel);
+    printf("Name: %s ", node->name);
+    printf("Tele: %ld ", node->tel);
 }
 
 void show_all(Student *head)
@@ -158,7 +157,7 @@ void show_name(Student *head, char *name)
     printf("===== Start =====\n");
     while (p != NULL)
     {
-        if (strcmp(name, head->name) == 0)
+        if (strcmp(name, p->name) == 0)
         {
             flag = 1;
             print_node(p);
@@ -182,7 +181,7 @@ int exist(Student *head, char *name)
     Student *p = head;
     while (p != NULL)
     {
-        if (strcmp(name, head->name) == 0)
+        if (strcmp(name, p->name) == 0)
         {
             flag = 1;
             break;
@@ -206,8 +205,9 @@ Student *append(Student *head)
         if (p->next == NULL)
         {
             p->next = node;
+            break;
         }
-        break;
+        p = p->next;
     }
     return head;
 }
@@ -221,7 +221,7 @@ Student *insert_after(Student *head, char *name)
     Student *p = head;
     while (p != NULL)
     {
-        if (strcmp(name, head->name) == 0)
+        if (strcmp(name, p->name) == 0)
         {
             Student *node = node_create();
             Student *next = p->next;
@@ -249,7 +249,7 @@ Student *insert_before(Student *head, char *name)
     Student *p = head->next;
     while (p != NULL)
     {
-        if (strcmp(name, head->name) == 0)
+        if (strcmp(name, p->name) == 0)
         {
             Student *node = node_create();
             before->next = node;
@@ -278,7 +278,7 @@ Student *delete (Student *head, char *name)
     Student *free_node = NULL;
     while (p != NULL)
     {
-        if (strcmp(name, head->name) == 0)
+        if (strcmp(name, p->name) == 0)
         {
             before->next = p->next;
             free(free_node);
