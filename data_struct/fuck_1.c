@@ -143,12 +143,11 @@ void show_name(Student *head, char *name)
     {
         if (strcmp(name, p->name) == 0)
         {
-            flag = 1;
-            print_node(p);
-            if (p->next != NULL)
-            {
+            flag++;
+            if (flag > 1) {
                 printf("\n");
             }
+            print_node(p);
         }
         p = p->next;
     }
