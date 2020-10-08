@@ -30,24 +30,16 @@ void menu_main()
     printf("2. Add\n");
     printf("3. Delete\n");
     printf("4. Search\n");
-    printf("5. Insert\n");
-    printf("6. Exit\n");
+    printf("5. Insert Before\n");
+    printf("6. Insert After\n");
+    printf("7. Exit\n");
 }
-
-void menu_insert()
-{
-    printf("1. Insert Beforen\n");
-    printf("2. Insert After\n");
-}
-
-// show_name
 
 int main(int argc, char *argv[])
 {
     Student *link = init();
     char c = 'y';
     int n = 0;
-    int m = 0;
     char name[NAME_MAX];
     int flag_exit = 0;
     while (1)
@@ -75,22 +67,14 @@ int main(int argc, char *argv[])
         case 5:
             printf("Please input name: ");
             scanf("%s", name);
-            menu_insert();
-            scanf("%d", &m);
-            switch (m)
-            {
-            case 1:
-                link = insert_before(link, name);
-                break;
-            case 2:
-                link = insert_after(link, name);
-                break;
-            default:
-                printf("Wrong Number! Please input again! ");
-                break;
-            }
+            link = insert_before(link, name);
             break;
         case 6:
+            printf("Please input name: ");
+            scanf("%s", name);
+            link = insert_after(link, name);
+            break;
+        case 7:
             flag_exit = 1;
             break;
         default:
@@ -129,8 +113,8 @@ void input_node(Student *node)
 
 void print_node(Student *node)
 {
-    printf("Name: %s ", node->name);
-    printf("Tele: %ld ", node->tel);
+    printf("Name: %s\n", node->name);
+    printf("Tele: %ld\n", node->tel);
 }
 
 void show_all(Student *head)
@@ -161,10 +145,10 @@ void show_name(Student *head, char *name)
         {
             flag = 1;
             print_node(p);
-        }
-        if (p->next != NULL)
-        {
-            printf("\n");
+            if (p->next != NULL)
+            {
+                printf("\n");
+            }
         }
         p = p->next;
     }
@@ -229,6 +213,7 @@ Student *insert_after(Student *head, char *name)
             node->next = next;
             break;
         }
+        p = p->next;
     }
     return head;
 }
