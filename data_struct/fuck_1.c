@@ -13,7 +13,7 @@ typedef struct _student
 #define SIZE sizeof(Student)
 
 Student *init();
-Student* node_create();
+Student *node_create();
 void input_node(Student *node);
 void print_node(Student *node);
 void show_all(Student *head);
@@ -24,19 +24,88 @@ Student *insert_after(Student *head, char *name);
 Student *insert_before(Student *head, char *name);
 Student *delete (Student *head, char *name);
 
+void menu_main()
+{
+    printf("1. Display\n");
+    printf("2. Add\n");
+    printf("3. Delete\n");
+    printf("4. Search\n");
+    printf("5. Insert\n");
+    printf("6. Exit\n");
+}
+
+void menu_insert()
+{
+    printf("1. Insert Beforen\n");
+    printf("2. Insert After\n");
+}
+
+// append
+// show_name
+
 int main(int argc, char *argv[])
 {
-    // Student *head = NULL;
-    // head = (Student *)malloc(SIZE * 1);
-    // input_node(head);
-    // head->next = NULL;
-    // show_all(head);
-    // show_name(head, "AimerNeige");
-    // show_name(head, "A");
-
     Student *link = init();
+    char c = 'y';
+    int n = 0;
+    int m = 0;
+    char name[NAME_MAX];
+    int flag_exit = 0;
+    while (1)
+    {
+        menu_main();
+        scanf("%d", &n);
+        switch (n)
+        {
+        case 1:
+            show_all(link);
+            break;
+        case 2:
+            link = append(link);
+            break;
+        case 3:
+            printf("Please input name:\t");
+            scanf("%s", name);
+            link = delete (link, name);
+            break;
+        case 4:
+            printf("Please input name:\t");
+            scanf("%s", name);
+            show_name(link, name);
+            break;
+        case 5:
+            printf("Please input name:\t");
+            scanf("%s", name);
+            menu_insert();
+            scanf("%d", &m);
+            switch (m)
+            {
+            case 1:
+                link = insert_before(link, name);
+                break;
+            case 2:
+                link = insert_after(link, name);
+                break;
+            default:
+                printf("Wrong Number! Please input again!\n");
+                break;
+            }
+            break;
+        case 6:
+            flag_exit = 1;
+            break;
+        default:
+            printf("Wrong Number! Please try again!\n");
+            break;
+        }
+        if (flag_exit == 1)
+        {
+            break;
+        }
+    }
 
-    return 0;Student* node_create();
+    return 0;
+    Student *node_create();
 }
 
 Student *init()
@@ -44,9 +113,9 @@ Student *init()
     return NULL;
 }
 
-Student* node_create()
+Student *node_create()
 {
-    Student* node = (Student*) malloc(SIZE * 1);
+    Student *node = (Student *)malloc(SIZE * 1);
     input_node(node);
     return node;
 }
@@ -125,18 +194,17 @@ int exist(Student *head, char *name)
 
 Student *append(Student *head)
 {
+    Student *node = node_create();
+    node->next = NULL;
     if (head == NULL)
     {
-        Student *node = node_create();
-        node->next = NULL;
         return node;
     }
     Student *p = head;
     while (p != NULL)
     {
-        if (p->next == NULL) {
-            Student* node = node_create();
-            node->next = NULL:
+        if (p->next == NULL)
+        {
             p->next = node;
         }
         break;
