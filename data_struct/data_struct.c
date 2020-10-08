@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #define NAME_MAX 32
+
 typedef struct _student
 {
     char name[NAME_MAX];
@@ -88,7 +89,6 @@ int main(int argc, char *argv[])
     }
 
     return 0;
-    Student *node_create();
 }
 
 Student *init()
