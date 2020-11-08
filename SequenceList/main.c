@@ -3,31 +3,16 @@
 #include <stdlib.h>
 
 #define NAME_MAX 32
-#define TEL_MAX 50
-
-typedef struct _tel
-{
-    char name[NAME_MAX];
-    long tel;
-} Tel;
-
-typedef struct _tel_list
-{
-    Tel tel_list[TEL_MAX];
-    int size;
-} TelList;
 
 typedef struct _student
 {
     char name[NAME_MAX];
-    TelList tel_list;
+    long tel;
     struct _student *next;
 } Student;
 
 #define SIZE sizeof(Student)
 
-void menu_main();
-void menu_tel();
 Student *init();
 Student *node_create();
 void input_node(Student *node);
@@ -35,16 +20,21 @@ void print_node(Student *node);
 void show_all(Student *head);
 void show_name(Student *head, char *name);
 int exist(Student *head, char *name);
-Student *search(Student *head, char *name);
 Student *append(Student *head);
 Student *insert_after(Student *head, char *name);
 Student *insert_before(Student *head, char *name);
 Student *delete (Student *head, char *name);
-void input_tel(TelList* tel_list);
-Student *tel_list_main(Student *head, char *name);
-TelList *tel_display(TelList *tel_list);
-TelList *tel_add(TelList *tel_list);
-TelList *tel_delete(TelList *tel_list, char *name);
+
+void menu_main()
+{
+    printf("1. Display\n");
+    printf("2. Add\n");
+    printf("3. Delete\n");
+    printf("4. Search\n");
+    printf("5. Insert Before\n");
+    printf("6. Insert After\n");
+    printf("7. Exit\n");
+}
 
 int main(int argc, char *argv[])
 {
@@ -66,31 +56,26 @@ int main(int argc, char *argv[])
             link = append(link);
             break;
         case 3:
-            printf("Please input ` name: ");
+            printf("Please input name: ");
             scanf("%s", name);
             link = delete (link, name);
             break;
         case 4:
-            printf("Please input user name: ");
+            printf("Please input name: ");
             scanf("%s", name);
             show_name(link, name);
             break;
         case 5:
-            printf("Please input user name: ");
+            printf("Please input name: ");
             scanf("%s", name);
             link = insert_before(link, name);
             break;
         case 6:
-            printf("Please input user name: ");
+            printf("Please input name: ");
             scanf("%s", name);
             link = insert_after(link, name);
             break;
         case 7:
-            printf("Please input user name: ");
-            scanf("%s", name);
-            link = tel_list_main(link, name);
-            break;
-        case 8:
             flag_exit = 1;
             break;
         default:
@@ -104,26 +89,6 @@ int main(int argc, char *argv[])
     }
 
     return 0;
-}
-
-void menu_main()
-{
-    printf("1. Display\n");
-    printf("2. Add\n");
-    printf("3. Delete\n");
-    printf("4. Search\n");
-    printf("5. Insert Before\n");
-    printf("6. Insert After\n");
-    printf("7. Tel List\n");
-    printf("8. Exit\n");
-}
-
-void menu_tel()
-{
-    printf("1. Display\n");
-    printf("2. Add\n");
-    printf("3. Delete\n");
-    printf("4. Exit\n");
 }
 
 Student *init()
@@ -142,20 +107,14 @@ void input_node(Student *node)
 {
     printf("Please input Name: ");
     scanf("%s", node->name);
-    node->tel_list.size = 0;
-    printf("Input TeleList now? (Y/n)\n");
-    char user_in;
-    scanf("%c", &user_in);
-    if (user_in == 'Y' || user_in == 'y')
-    {
-        input_tel(&(node->tel_list));
-    }
+    printf("Please input Tele: ");
+    scanf("%ld", &(node->tel));
 }
 
 void print_node(Student *node)
 {
     printf("Name: %s\n", node->name);
-    // printf("Tele: %ld\n", node->tel);
+    printf("Tele: %ld\n", node->tel);
 }
 
 void show_all(Student *head)
@@ -185,8 +144,7 @@ void show_name(Student *head, char *name)
         if (strcmp(name, p->name) == 0)
         {
             flag++;
-            if (flag > 1)
-            {
+            if (flag > 1) {
                 printf("\n");
             }
             print_node(p);
@@ -214,20 +172,6 @@ int exist(Student *head, char *name)
         p = p->next;
     }
     return flag;
-}
-
-Student *search(Student *head, char *name)
-{
-    Student *p = head;
-    while (p != NULL)
-    {
-        if (strcmp(name, p->name) == 0)
-        {
-            return p;
-        }
-        p = p->next;
-    }
-    return NULL;
 }
 
 Student *append(Student *head)
@@ -328,89 +272,4 @@ Student *delete (Student *head, char *name)
         p = p->next;
     }
     return head;
-}
-
-Student *tel_list_main(Student *head, char *main)
-{
-    if (head == NULL)
-    {
-        return head;
-    }
-    Student *node = search(head, main);
-    if (node == NULL)
-    {
-        return head;
-    }
-    TelList *tel_list = &(node->tel_list);
-    menu_tel();
-    int n = 0;
-    int flag_exit = 0;
-    char name[NAME_MAX];
-    scanf("%d", &n);
-    while (1)
-    {
-        switch (n)
-        {
-        case 1:
-            tel_display(tel_list);
-            break;
-        case 2:
-            tel_add(tel_list);
-            break;
-        case 3:
-            printf("Please input name: ");
-            scanf("%s", name);
-            tel_delete(tel_list, name);
-            break;
-        case 4:
-            flag_exit = 1;
-            break;
-        default:
-            printf("Wrong number, please input again.\n");
-            break;
-        }
-        if (flag_exit == 1)
-        {
-            break;
-        }
-    }
-    return head;
-}
-
-void input_tel(TelList* tel_list)
-{
-    if (tel_list->size == TEL_MAX) {
-        printf("The list is full!\n");
-        return;
-    }
-    printf("Please input Name: ");
-    scanf("%s", tel_list->tel_list->name);
-}
-
-TelList *tel_display(TelList *tel_list)
-{
-    printf("===== Start =====\n");
-    for (int i = 0; i < tel_list->size; i++) {
-        printf("Name: %s\n", tel_list->tel_list[i].name);
-        printf("Tel:  %ld\n", tel_list->tel_list[i].tel);
-        printf("\n");
-    }
-    printf("=====  End  =====\n");
-}
-
-TelList *tel_add(TelList *tel_list)
-{
-    if (tel_list == NULL) {
-        return tel_list;
-    }
-    printf("Please input name: ");
-    scanf("%s", tel_list->tel_list->name);
-    printf("Please input tele: ");
-    scanf("%ld", &(tel_list->tel_list->tel));
-    return tel_list;
-}
-
-
-TelList *tel_delete(TelList *tel_list, char *name)
-{
 }
