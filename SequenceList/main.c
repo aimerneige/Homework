@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
             link = append(link);
             break;
         case 3:
-            printf("Please input user name: ");
+            printf("Please input ` name: ");
             scanf("%s", name);
             link = delete (link, name);
             break;
@@ -142,11 +142,13 @@ void input_node(Student *node)
 {
     printf("Please input Name: ");
     scanf("%s", node->name);
+    node->tel_list.size = 0;
     printf("Input TeleList now? (Y/n)\n");
-    char user_in = getchar();
+    char user_in;
+    scanf("%c", &user_in);
     if (user_in == 'Y' || user_in == 'y')
     {
-        // input tel list
+        input_tel(&(node->tel_list));
     }
 }
 
